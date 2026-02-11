@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RíoFlux - Energías Renovables</title>
+  <style>
+    :root {
+      --primary-color: #0072bc; /* Azul del logo */
+      --secondary-color: #ff9800; /* Naranja del logo */
+      --accent-color: #ffb74d; /* Naranja claro */
+      --dark-color: #005691; /* Azul oscuro */
+      --light-color: #e8f4fc; /* Azul muy claro */
+      --white-color: #ffffff;
+      --text-dark: #333333;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: var(--light-color);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: rgba(0, 86, 145, 0.95); /* Cambiado a azul oscuro semi-transparente */
+      color: white; /* Cambiado a blanco */
+      padding: 0.5rem 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: fixed;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(5px);
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      margin-left: -100px /*Esto mueve el logo hacia la izquierda*/
+    }
+    
+    .logo-img {
+      height: 140px; /* Aumentado de 120px a 140px */
+      width: auto;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 1.5rem;
+    }
+    
+    .nav-links a {
+      color: white; /*Cambiado a blanco*/
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      padding: 0.5rem;
+    }
+    
+    .nav-links a:hover {
+      color: var(--secondary-color);
+    }
+    
+    /* Secciones de altura completa */
+    .fullscreen-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .section-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.7) blur(2px);
+      z-index: -1;
+    }
+    
+    .section-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+    
+    .section-content {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 3rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    #hero {
+      background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero.png');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .hero-content p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--secondary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 2.5rem; /* Aumentado */
+    }
+    
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.8rem; /* Aumentado */
+    }
+    
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--secondary-color);
+    }
+    
+    .section-title p {
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      margin-top: 1rem;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 2rem;
+      margin-top: 2.5rem; /* Aumentado */
+    }
+    
+    .feature-item {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.3s;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .feature-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+    
+    .feature-item h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem; /* Aumentado */
+      font-size: 1.2rem; /* Aumentado */
+    }
+    
+    /* Servicios en la página principal - ajustados para simetría */
+    .services-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      margin: 0 auto;
+    }
+    
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .service-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      flex: 1;
+      max-width: 350px; /* Para mantener tamaños similares */
+    }
+    
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .service-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .service-content {
+      padding: 1.8rem; /* Aumentado */
+    }
+    
+    .service-content h3 {
+      color: var(--primary-color);
+      margin-bottom: 1rem; /* Aumentado */
+      font-size: 1.5rem;
+    }
+    
+    .content-section {
+      background-color: var(--white-color);
+      padding: 3rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin-bottom: 2.5rem; /* Aumentado */
+      text-align: center; /* Para mejor simetría */
+    }
+    
+    .content-section h3 {
+      color: var(--primary-color);
+      margin-bottom: 2rem; /* Aumentado */
+      font-size: 1.8rem;
+    }
+    
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem; /* Aumentado */
+      align-items: center;
+    }
+    
+    .about-img {
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .about-text {
+      text-align: left; /* Para mantener la alineación del texto */
+    }
+    
+    .about-text h3 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem; /* Aumentado */
+      font-size: 1.8rem;
+    }
+    
+    .about-text p {
+      margin-bottom: 1.2rem; /* Aumentado */
+    }
+    
+    .about-text ul {
+      margin-bottom: 1.5rem; /* Aumentado */
+      padding-left: 1.5rem;
+    }
+    
+    .about-text li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .tab-content {
+      display: none;
+      min-height: 100vh;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .tab-spacer {
+      height: 80px;
+    }
+    
+    /* Espacio adicional antes del footer */
+    .footer-spacer {
+      height: 3rem;
+    }
+    
+    .team-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem; /* Aumentado */
+      margin-top: 3rem;
+    }
+    
+    .team-member {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .team-img {
+      height: 250px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .team-info {
+      padding: 1.8rem; /* Aumentado */
+    }
+    
+    .team-info h4 {
+      color: var(--primary-color);
+      margin-bottom: 0.8rem; /* Aumentado */
+      font-size: 1.3rem; /* Aumentado */
+    }
+    
+    .team-info p {
+      color: var(--text-dark);
+      font-style: italic;
+      margin-bottom: 1.2rem; /* Aumentado */
+    }
+    
+    .payment-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem; /* Aumentado */
+      margin-top: 2.5rem; /* Aumentado */
+    }
+    
+    .payment-option {
+      background-color: white;
+      padding: 1.8rem; /* Aumentado */
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .payment-icon {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 1.2rem; /* Aumentado */
+    }
+    
+    .payment-option h4 {
+      margin-bottom: 1rem; /* Aumentado */
+      font-size: 1.2rem; /* Aumentado */
+    }
+    
+    .contact-form {
+      background-color: white;
+      padding: 2.5rem; /* Aumentado */
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .form-group {
+      margin-bottom: 1.8rem; /* Aumentado */
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.8rem; /* Aumentado */
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+    
+    .contact-info {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 2.5rem; /* Aumentado */
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .contact-info h3 {
+      color: white;
+      margin-bottom: 1.8rem; /* Aumentado */
+      font-size: 1.8rem;
+    }
+    
+    .contact-info p {
+      margin-bottom: 1.2rem; /* Aumentado */
+    }
+    
+    .contact-info strong {
+      color: var(--secondary-color);
+    }
+    
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 3rem 0;
+      text-align: center;
+      margin-top: 3rem; /* Aumentado - espacio antes del footer */
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem; /* Aumentado */
+      text-align: left;
+    }
+    
+    .footer-section h3 {
+      color: var(--secondary-color);
+      margin-bottom: 1.2rem; /* Aumentado */
+    }
+    
+    .footer-section ul {
+      list-style: none;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 0.8rem; /* Aumentado */
+    }
+    
+    .footer-section ul li a {
+      color: var(--light-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-section ul li a:hover {
+      color: var(--secondary-color);
+    }
+    
+    .footer-bottom {
+      margin-top: 2.5rem; /* Aumentado */
+      padding-top: 1.2rem; /* Aumentado */
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .scroll-down {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      animation: bounce 2s infinite;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+      }
+      40% {
+        transform: translateY(-20px) translateX(-50%);
+      }
+      60% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .about-content,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      
+      .section-title h2 {
+        font-size: 2rem;
+      }
+      
+      /* Ajuste para móviles */
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .logo-img {
+        height: 40px;
+      }
+      
+      .section-content {
+        padding: 2rem;
+        margin: 0 1rem;
+      }
+      
+      .services-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .service-card {
+        max-width: 100%;
+        margin-bottom: 2rem;
+      }
+    }
+    
+    @media (max-width: 992px) and (min-width: 769px) {
+      /* Ajuste para tablets */
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .services-container {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .service-card {
+        max-width: 45%;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo-container">
+          <!-- Aquí va el logo en lugar del texto -->
+          <img src="rioflux-logo.png" alt="RíoFlux Logo" class="logo-img">
+        </div>
+        <ul class="nav-links">
+          <li><a href="#" onclick="openTab('home')">Inicio</a></li>
+          <li><a href="#" onclick="openTab('photovoltaic')">Paneles Fotovoltaicos</a></li>
+          <li><a href="#" onclick="openTab('thermal')">Paneles Térmicos</a></li>
+          <li><a href="#" onclick="openTab('maintenance')">Protegiendo el Progreso</a></li>
+          <li><a href="#" onclick="openTab('about')">Sobre Nosotros</a></li>
+          <li><a href="#" onclick="openTab('payment')">Modos de Pago</a></li>
+          <li><a href="#" onclick="openTab('contact')">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenido de las pestañas -->
+  <div id="home" class="tab-content active">
+    <!-- Sección Hero -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>RíoFlux</h1>
+          <p>Una inversión inteligente en energía para hogares y empresas</p>
+          <a href="#" class="btn" onclick="openTab('contact')">Contactanos</a>
+        </div>
+      </div>
+      <div class="scroll-down" onclick="scrollToSection('mission-section')">▼</div>
+    </section>
+
+    <!-- Sección Misión -->
+    <section id="mission-section" class="fullscreen-section">
+      <div class="section-bg" style="background-image: url('mission.png')"></div>
+      <div class="section-overlay"></div>
+      <div class="container">
+        <div class="section-content">
+          <div class="section-title">
+            <h2>Nuestra Misión</h2>
+          </div>
+          <p>En RíoFlux nos dedicamos a transformar la manera en que los hogares y empresas consumen energía, ofreciendo soluciones renovables accesibles y eficientes que reducen costos y protegen el medio ambiente, brindando tecnología de vanguardia con un servicio personalizado que garantiza la máxima satisfacción de nuestros clientes.</p>
+          <p style="margin-top: 1.5rem;">Trabajamos cada día para hacer que la energía solar sea una opción viable y atractiva para todos los argentinos, contribuyendo así a un futuro más sostenible y económicamente beneficioso para nuestros clientes.</p>
+        </div>
+      </div>
+      <div class="scroll-down" onclick="scrollToSection('vision-section')">▼</div>
+    </section>
+    
+    <!-- Sección Visión -->
+    <section id="vision-section" class="fullscreen-section">
+      <div class="section-bg" style="background-image: url('vision.png')"></div>
+      <div class="section-overlay"></div>
+      <div class="container">
+        <div class="section-content">
+          <div class="section-title">
+            <h2>Nuestra Visión</h2>
+          </div>
+          <p>Aspiramos a liderar la transición energética en Argentina, creando un futuro donde la energía solar sea la principal fuente de electricidad en hogares y empresas. Visualizamos comunidades energéticamente independientes y sostenibles, donde cada techo se convierta en una fuente de energía limpia y económica.</p>
+          <p style="margin-top: 1.5rem;">Queremos ser reconocidos como la empresa referente en soluciones energéticas renovables, distinguiéndonos por nuestra excelencia técnica, compromiso con el cliente y contribución al desarrollo sostenible del país.</p>
+        </div>
+      </div>
+      <div class="scroll-down" onclick="scrollToSection('benefits-section')">▼</div>
+    </section>
+    
+    <!-- Sección Beneficios -->
+    <section id="benefits-section" class="fullscreen-section">
+      <div class="section-bg" style="background-image: url('beneficios.png')"></div>
+      <div class="section-overlay"></div>
+      <div class="container">
+        <div class="section-content" style="max-width: 1000px;">
+          <div class="section-title">
+            <h2>Beneficios de la Energía Solar</h2>
+          </div>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <h4>Ahorro Económico</h4>
+              <p>Reduce hasta un 70% en tu factura de electricidad desde el primer mes de instalación.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Energía Limpia</h4>
+              <p>Cero emisiones de CO2, constribuyendo a un ambiente más limpio.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Independencia Energética</h4>
+              <p>Protección contra los aumentos en las tarifas eléctricas y cortes de suministro.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Valor Agregado</h4>
+              <p>Incrementa el valor de tu propiedad y mejora tu imagen corporativa.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Larga Vida Útil</h4>
+              <p>Sistemas con garantías de hasta 25 años y mínimo mantenimiento.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Retorno de Inversión</h4>
+              <p>Recupera tu inversión en un plazo de 2 a 4 años, con beneficios a largo plazo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-down" onclick="scrollToSection('services-section')">▼</div>
+    </section>
+
+    <!-- Sección Servicios -->
+    <section id="services-section" class="fullscreen-section">
+      <div class="section-bg" style="background-image: url('servicios.png')"></div>
+      <div class="section-overlay"></div>
+      <div class="container">
+        <div class="section-content" style="max-width: 1100px;">
+          <div class="section-title">
+            <h2>Nuestros Servicios</h2>
+            <p>Soluciones energéticas para todas tus necesidades</p>
+          </div>
+          <!-- Contenedor para alinear los servicios horizontalmente -->
+          <div class="services-container">
+            <div class="service-card">
+              <div class="service-img" style="background-image: url('paneles300200.png')"></div>
+              <div class="service-content">
+                <h3>Paneles Solares Fotovoltaicos</h3>
+                <p>Generá tu propia electricidad y reducí drásticamente tu factura de luz.</p>
+                <a href="#" class="btn" onclick="openTab('photovoltaic')">Conocer más</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-img" style="background-image: url('panel-termico-300200.png')"></div>
+              <div class="service-content">
+                <h3>Paneles Solares Térmicos</h3>
+                <p>Calentá el agua de tu hogar o negocio utilizando la energía del sol.</p>
+                <a href="#" class="btn" onclick="openTab('thermal')">Conocer más</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-img" style="background-image: url('matenimiento-300200.png')"></div>
+              <div class="service-content">
+                <h3>Mantenimiento y Soporte</h3>
+                <p>Servicio técnico especializado para garantizar el rendimiento óptimo de tus sistemas.</p>
+                <a href="#" class="btn" onclick="openTab('maintenance')">Conocer más</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="photovoltaic" class="tab-content">
+    <div class="tab-spacer"></div>
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>Paneles Solares Fotovoltaicos</h2>
+          <p>Generá tu propia electricidad y ahorrá en tu factura</p>
+        </div>
+        
+        <div class="content-section">
+          <div class="about-content">
+            <div class="about-img" style="background-image: url('almacen-fotovoltaicos.png')"></div>
+            <div class="about-text">
+              <h3>Tecnología de Vanguardia</h3>
+              <p>Nuestros paneles solares fotovoltaicos convierten la luz solar directamente en electricidad utilizable en tu hogar o empresa. Utilizamos paneles de alta eficiencia que maximizan la generación de energía incluso en días nublados.</p>
+              <p>Características principales:</p>
+              <ul>
+                <li>Paneles monocristalinos de alta eficiencia (18%+)</li>
+                <li>Inversores de última generación con monitoreo remoto</li>
+                <li>Sistemas on-grid, off-grid e híbridos</li>
+                <li>Diseño personalizado según tu consumo y espacio disponible</li>
+                <li>Instalación profesional con garantía de 5 años</li>
+              </ul>
+              <p>Todos nuestros sistemas incluyen garantía de 25 años en los paneles y 10 años en los inversores.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Beneficios de los Paneles Fotovoltaicos</h3>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <h4>Ahorro Inmediato</h4>
+              <p>Reducción de hasta un 70% o más en tu factura de electricidad desde el primer mes.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Energía Limpia</h4>
+              <p>Cada kWh generado evita la emisión de aproximadamente 0.5 kg de CO2.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Bajo Mantenimiento</h4>
+              <p>Sistemas robustos que requieren mínimo mantenimiento anual.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Monitoreo Remoto</h4>
+              <p>Controla la producción de tu sistema desde tu celular o computadora.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Adaptabilidad</h4>
+              <p>Sistemas modulares que pueden crecer según tus necesidades futuras.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Durabilidad</h4>
+              <p>Resistentes a condiciones climáticas adversas con mínima degradación anual.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Nuestros Paquetes</h3>
+          <div class="services-container">
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Paquete inicial</h3>
+                <p>Empieza a producir tu propia energía.</p>
+                <ul>
+                  <li>4 paneles solares</li>
+                  <li>Microinversor 2kW</li>
+                  <li>Producción mensual: 150-200 kWh</li>
+                  <li>Instalación incluida</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precios</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Paquete Experimentado</h3>
+                <p>Soluciones potentes y autonomas para tu hogar.</p>
+                <ul>
+                  <li>5-7 paneles solares</li>
+                  <li>Inversor String</li>
+                  <li>Producción mensual: 250-400 kWh</li>
+                  <li>Instalación y monitoreo incluidos</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precios</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Paquete Comercial</h3>
+                <p>Tu negocio autosustentable en todo sentido.</p>
+                <ul>
+                  <li>8-15 paneles solares</li>
+                  <li>Sistema inversor trifásico/híbrido</li>
+                  <li>Producción a medida según necesidades</li>
+                  <li>Instalación, monitoreo y mantenimiento incluidos</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precios</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Espacio adicional antes del footer -->
+        <div class="footer-spacer"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="thermal" class="tab-content">
+    <div class="tab-spacer"></div>
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>Paneles Solares Térmicos (MANTENIMIENTO)</h2>
+          <p>Agua caliente utilizando la energía del sol</p>
+        </div>
+        
+        <div class="content-section">
+          <div class="about-content">
+            <div class="about-text">
+              <h3>Tecnología Solar Térmica (MANTENIMIENTO)</h3>
+              <p>Los paneles solares térmicos capturan el calor del sol para calentar el agua que utilizás en tu hogar o negocio. Son una solución eficiente para reducir el consumo de gas o electricidad destinado al calentamiento de agua.</p>
+              <p>Características principales:</p>
+              <ul>
+                <li>Colectores solares de alta eficiencia</li>
+                <li>Tanques de almacenamiento aislados</li>
+                <li>Sistemas presurizados y no presurizados</li>
+                <li>Diseño adaptado a tu consumo de agua caliente</li>
+                <li>Instalación profesional con garantía</li>
+              </ul>
+              <p>Nuestros sistemas térmicos pueden cubrir hasta el 80% de tus necesidades de agua caliente durante todo el año.</p>
+            </div>
+            <div class="about-img" style="background-image: url('https://source.unsplash.com/random/600x400/?thermal,solar')"></div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Beneficios de los Paneles Térmicos</h3>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <h4>Ahorro en Gas/Electricidad</h4>
+              <p>Reduce hasta un 80% el consumo de energía para calentar agua.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Agua Caliente Constante</h4>
+              <p>Disponibilidad de agua caliente incluso durante cortes de suministro.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Tecnología Simple</h4>
+              <p>Sistemas robustos con pocas piezas móviles y larga vida útil.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Complemento Ideal</h4>
+              <p>Funciona en conjunto con sistemas tradicionales para máxima eficiencia.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Rápida Amortización</h4>
+              <p>Recupera tu inversión en aproximadamente 2-3 años.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Bajo Mantenimiento</h4>
+              <p>Requieren mínima atención para funcionar correctamente por años.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Nuestras Soluciones Térmicas</h3>
+          <div class="services-container">
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Sistema Familiar</h3>
+                <p>Ideal para hogares de hasta 4 personas.</p>
+                <ul>
+                  <li>2 colectores solares</li>
+                  <li>Tanque de 200 litros</li>
+                  <li>Cobertura del 70-80% de necesidades anuales</li>
+                  <li>Instalación incluida</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precio</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Sistema Residencial Plus</h3>
+                <p>Para familias numerosas o mayor demanda.</p>
+                <ul>
+                  <li>3-4 colectores solares</li>
+                  <li>Tanque de 300-400 litros</li>
+                  <li>Cobertura del 70-80% de necesidades anuales</li>
+                  <li>Instalación incluida</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precio</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Sistema Comercial</h3>
+                <p>Para hoteles, restaurantes y otros negocios.</p>
+                <ul>
+                  <li>Sistema dimensionado según necesidades</li>
+                  <li>Tanques de gran capacidad</li>
+                  <li>Integración con sistemas existentes</li>
+                  <li>Instalación y mantenimiento incluidos</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precio</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Espacio adicional antes del footer -->
+        <div class="footer-spacer"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="maintenance" class="tab-content">
+    <div class="tab-spacer"></div>
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>Protegiendo el Progreso</h2>
+          <p>Servicios de mantenimiento y soporte técnico</p>
+        </div>
+        
+        <div class="content-section">
+          <div class="about-content">
+            <div class="about-img" style="background-image: url('https://source.unsplash.com/random/600x400/?maintenance,technician')"></div>
+            <div class="about-text">
+              <h3>Mantenimiento Preventivo y Correctivo</h3>
+              <p>Para garantizar que tu inversión en energía solar rinda al máximo durante toda su vida útil, ofrecemos servicios completos de mantenimiento preventivo y correctivo para todos los tipos de sistemas solares.</p>
+              <p>Nuestro equipo técnico especializado se encarga de:</p>
+              <ul>
+                <li>Inspección visual de componentes</li>
+                <li>Limpieza profesional de paneles</li>
+                <li>Verificación de conexiones eléctricas</li>
+                <li>Medición de parámetros de funcionamiento</li>
+                <li>Detección temprana de posibles problemas</li>
+                <li>Reparaciones y reemplazos de componentes</li>
+              </ul>
+              <p>Un mantenimiento adecuado puede aumentar la producción de tu sistema hasta un 20% y prolongar su vida útil.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Planes de Mantenimiento</h3>
+          <div class="services-container">
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Plan Básico</h3>
+                <p>Mantenimiento esencial para sistemas residenciales.</p>
+                <ul>
+                  <li>1 visita anual</li>
+                  <li>Limpieza de paneles</li>
+                  <li>Inspección visual</li>
+                  <li>Informe de estado</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precio</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Plan Premium</h3>
+                <p>Mantenimiento completo para máxima tranquilidad.</p>
+                <ul>
+                  <li>2 visitas anuales</li>
+                  <li>Limpieza profunda de paneles</li>
+                  <li>Revisión completa del sistema</li>
+                  <li>Monitoreo remoto continuo</li>
+                  <li>Respuesta prioritaria ante incidencias</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precio</a>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-content">
+                <h3>Plan Empresarial</h3>
+                <p>Para instalaciones comerciales e industriales.</p>
+                <ul>
+                  <li>Mantenimiento trimestral</li>
+                  <li>Limpieza especializada</li>
+                  <li>Análisis de rendimiento</li>
+                  <li>Informes detallados</li>
+                  <li>Asistencia técnica 24/7</li>
+                  <li>Tiempo de respuesta garantizado</li>
+                </ul>
+                <a href="#" class="btn" onclick="openTab('contact')">Consultar precio</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Servicios Adicionales</h3>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <h4>Monitoreo Remoto</h4>
+              <p>Seguimiento en tiempo real del rendimiento de tu sistema solar.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Reparaciones de Emergencia</h4>
+              <p>Servicio técnico rápido para solucionar cualquier incidencia.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Actualizaciones de Sistemas</h4>
+              <p>Mejora de componentes para aumentar la eficiencia de instalaciones existentes.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Asesoramiento Técnico</h4>
+              <p>Consultoría especializada para optimizar el rendimiento de tu inversión.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Capacitación al Cliente</h4>
+              <p>Formación básica para el manejo y cuidado cotidiano de tu sistema.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Extensión de Garantías</h4>
+              <p>Protección adicional para tu inversión por períodos extendidos.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Espacio adicional antes del footer -->
+        <div class="footer-spacer"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="about" class="tab-content">
+    <div class="tab-spacer"></div>
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>Sobre Nosotros</h2>
+          <p>Conocé nuestra historia y equipo</p>
+        </div>
+        
+        <div class="content-section">
+          <div class="about-content">
+            <div class="about-text">
+              <h3>RíoFlux: Energía para el Futuro</h3>
+              <p>Fundada en 2026, RíoFlux, en Río Tercero, nació con la visión de transformar la matriz energética de la ciudad y la región hacia un modelo más sostenible y accesible para todos. Comenzamos como una empresa personal con solidez y respaldo técnico y legal.</p>
+              <p>Nuestra filosofía se basa en tres pilares fundamentales:</p>
+              <ul>
+                <li><strong>Calidad:</strong> Trabajamos únicamente con los mejores componentes y proveedores del mercado.</li>
+                <li><strong>Innovación:</strong> Nos mantenemos actualizados con las últimas tecnologías y tendencias del sector.</li>
+                <li><strong>Servicio:</strong> Brindamos atención personalizada y acompañamiento durante todo el proceso.</li>
+              </ul>
+              <p>Nos esforzamos en que nuestros clientes tengan la máxima seguridad de que sus sistemas sean robustos y que cuentan con todo el apoyo legal, garantizando calidad y resultados óptimos.</p>
+            </div>
+            <div class="about-img" style="background-image: url('https://source.unsplash.com/random/600x400/?solar,installation')"></div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Nuestros Valores</h3>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <h4>Sostenibilidad</h4>
+              <p>Compromiso con el medio ambiente y las futuras generaciones.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Transparencia</h4>
+              <p>Información clara y honesta sobre todos nuestros productos y servicios.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Excelencia</h4>
+              <p>Búsqueda constante de la perfección en cada instalación.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Responsabilidad</h4>
+              <p>Cumplimiento de plazos y compromisos con nuestros clientes.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Innovación</h4>
+              <p>Adopción temprana de nuevas tecnologías y métodos de trabajo.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Comunidad</h4>
+              <p>Compromiso con el desarrollo local y la creación de empleos verdes.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Nuestro Equipo</h3>
+          <div class="team-section">
+            <div class="team-member">
+              <div class="team-img" style="background-image: url('https://source.unsplash.com/random/300x300/?businessman')"></div>
+              <div class="team-info">
+                <h4>Ignacio Gaviglio</h4>
+                <p>Fundador y Director</p>
+                <p>Matriculado en Instalación de Paneles Solares por CAIM en la UTN. Con perspectias de crecimiento sostenido y de largo plazo.</p>
+              </div>
+            </div>
+            <div class="team-member">
+              <div class="team-img" style="background-image: url('https://source.unsplash.com/random/300x300/?businesswoman')"></div>
+              <div class="team-info">
+                <h4>Alejandro Sánchez</h4>
+                <p>Co-fundador</p>
+                <p>Instalador Electricista Matriculado, 6 años de experiencia y fundador y director de ALFA-OMEGA Electricidad. Socio y apoyo legal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Espacio adicional antes del footer -->
+        <div class="footer-spacer"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="payment" class="tab-content">
+    <div class="tab-spacer"></div>
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>Modos de Pago</h2>
+          <p>Opciones flexibles para tu inversión en energía solar</p>
+        </div>
+        
+        <div class="content-section">
+          <h3>Financiamiento a tu Medida</h3>
+          <p>En RíoFlux entendemos que la inversión en energía solar representa un compromiso importante. Por eso, ofrecemos diversas opciones de pago para que puedas acceder a nuestros sistemas de la manera que mejor se adapte a tus posibilidades.</p>
+          
+          <div class="payment-options">
+            <div class="payment-option">
+              <div class="payment-icon">💳</div>
+              <h4>Tarjetas de Crédito</h4>
+              <p>Hasta 12 cuotas sin interés con tarjetas seleccionadas.</p>
+              <p>Aceptamos todas las tarjetas principales: Visa, Mastercard, American Express.</p>
+            </div>
+            <div class="payment-option">
+              <div class="payment-icon">💰</div>
+              <h4>Efectivo / Transferencia</h4>
+              <p>10% de descuento por pago al contado o transferencia bancaria.</p>
+            </div>
+            <div class="payment-option">
+              <div class="payment-icon">📊</div>
+              <h4>Financiamiento Propio</h4>
+              <p>Planes de pago personalizados con cuotas fijas en pesos.</p>
+              <p>Financiación de hasta 24 meses para sistemas residenciales.</p>
+            </div>
+            <div class="payment-option">
+              <div class="payment-icon">🏦</div>
+              <h4>Créditos Bancarios</h4>
+              <p>Trabajamos con entidades financieras que ofrecen líneas especiales para energías renovables.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h3>Planes Especiales</h3>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <h4>Plan Ahorro Solar</h4>
+              <p>Pagá tu sistema con los ahorros generados en tu factura de electricidad.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Leasing Solar</h4>
+              <p>Para empresas: adquirí tu sistema mediante leasing con beneficios impositivos.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Plan Referidos</h4>
+              <p>Obtené descuentos por recomendar nuestros servicios a amigos y familiares.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Financiación Verde</h4>
+              <p>Accedé a tasas preferenciales en créditos para proyectos sustentables.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Pago Diferido</h4>
+              <p>Comenzá a pagar tu sistema después de la primera factura con ahorro.</p>
+            </div>
+            <div class="feature-item">
+              <h4>Plan Empresas</h4>
+              <p>Soluciones financieras especiales para PyMEs e industrias.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <div class="about-content">
+            <div class="about-img" style="background-image: url('https://source.unsplash.com/random/600x400/?solar,investment')"></div>
+            <div class="about-text">
+              <h3>Una Inversión Inteligente</h3>
+              <p>Invertir en energía solar no es un gasto, sino una de las mejores inversiones que podés hacer hoy:</p>
+              <ul>
+                <li>Retorno de inversión en 3-5 años</li>
+                <li>Protección contra la inflación y aumentos tarifarios</li>
+                <li>Valorización de tu propiedad</li>
+                <li>Beneficios fiscales en muchas jurisdicciones</li>
+              </ul>
+              <p>Consultanos sobre el plan que mejor se adapte a tus necesidades y comienza a ahorrar desde el primer día.</p>
+              <a href="#" class="btn" onclick="openTab('contact')">Solicitar asesoramiento financiero</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Espacio adicional antes del footer -->
+        <div class="footer-spacer"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="contact" class="tab-content">
+    <div class="tab-spacer"></div>
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>Contacto</h2>
+          <p>Estamos para ayudarte</p>
+        </div>
+        
+        <div class="about-content" style="grid-template-columns: 2fr 1fr; gap: 3rem;">
+          <div class="contact-form">
+            <h3>Envianos tu consulta</h3>
+            <form>
+              <div class="form-group">
+                <label for="name">Nombre completo</label>
+                <input type="text" id="name" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="tel" id="phone" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="service">Servicio de interés</label>
+                <select id="service" class="form-control">
+                  <option value="">Seleccionar...</option>
+                  <option value="photovoltaic">Paneles Solares Fotovoltaicos</option>
+                  <option value="thermal">Paneles Solares Térmicos</option>
+                  <option value="maintenance">Mantenimiento</option>
+                  <option value="other">Otro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">Mensaje</label>
+                <textarea id="message" rows="5" class="form-control" required></textarea>
+              </div>
+              <button type="submit" class="btn">Enviar consulta</button>
+            </form>
+          </div>
+          
+          <div class="contact-info">
+            <h3>Información de contacto</h3>
+            <p><strong>Teléfono:</strong><br>3571534450</p>
+            <p><strong>Email:</strong><br>info@rioflux.com.ar</p>
+            <p><strong>Horario de atención:</strong><br>Lunes a Viernes: 9:00 - 18:00<br>Sábados: 9:00 - 13:00</p>
+            <div style="margin-top: 2rem;">
+              <h4 style="color: var(--secondary-color); margin-bottom: 1rem;">Seguinos en redes</h4>
+              <div style="display: flex; gap: 1rem;">
+                <a href="#" style="color: white; font-size: 1.5rem; text-decoration: none;">FB</a>
+                <a href="#" style="color: white; font-size: 1.5rem; text-decoration: none;">IG</a>
+                <a href="#" style="color: white; font-size: 1.5rem; text-decoration: none;">LI</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Espacio adicional antes del footer -->
+        <div class="footer-spacer"></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>RíoFlux</h3>
+          <p>Una inversión inteligente en energía para hogares y empresas.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Enlaces rápidos</h3>
+          <ul>
+            <li><a href="#" onclick="openTab('home')">Inicio</a></li>
+            <li><a href="#" onclick="openTab('photovoltaic')">Paneles Fotovoltaicos</a></li>
+            <li><a href="#" onclick="openTab('thermal')">Paneles Térmicos</a></li>
+            <li><a href="#" onclick="openTab('maintenance')">Protegiendo el Progreso</a></li>
+            <li><a href="#" onclick="openTab('about')">Sobre Nosotros</a></li>
+            <li><a href="#" onclick="openTab('payment')">Modos de Pago</a></li>
+            <li><a href="#" onclick="openTab('contact')">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contacto</h3>
+          <ul>
+            <li>Teléfono: 3571534450</li>
+            <li>Email: info@rioflux.com.ar</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 RíoFlux - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function openTab(tabName) {
+      // Ocultar todos los contenidos de pestañas
+      var tabContents = document.getElementsByClassName("tab-content");
+      for (var i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
+      
+      // Mostrar la pestaña seleccionada
+      document.getElementById(tabName).classList.add("active");
+      
+      // Desplazarse hacia arriba
+      window.scrollTo(0, 0);
+    }
+    
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  // Función para controlar la visibilidad del header al hacer scroll
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    const heroSection = document.getElementById('hero');
+    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    
+    // Si pasamos la sección hero, ocultamos el header
+    if (window.pageYOffset > heroBottom - 100) {
+      header.style.transform = 'translateY(-100%)';
+      header.style.transition = 'transform 0.3s ease-in-out';
+    } else {
+      header.style.transform = 'translateY(0)';
+      header.style.transition = 'transform 0.3s ease-in-out';
+    }
+  });
+    // Variables para controlar el scroll
+  let lastScrollTop = 0;
+  const header = document.querySelector('header');
+  const heroSection = document.getElementById('hero');
+  
+  // Función para controlar la visibilidad del header al hacer scroll
+  window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const heroBottom = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 0;
+    
+    // Determinar dirección del scroll
+    if (scrollTop > lastScrollTop) {
+      // Scroll hacia abajo
+      if (scrollTop > heroBottom - 100) {
+        header.style.transform = 'translateY(-100%)';
+      }
+    } else {
+      // Scroll hacia arriba - mostrar header
+      header.style.transform = 'translateY(0)';
+    }
+    
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Para móviles
+  });
+  </script>
+</body>
+</html>
